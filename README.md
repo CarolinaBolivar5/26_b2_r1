@@ -1,147 +1,92 @@
-# Proyecto - Sistema de Gestión de Estudiantes
+# Entrega Actividad - API Sistema de Gestión de Estudiantes
 
-Este es un proyecto backend desarrollado con **Java 21** y **Spring Boot** para la gestión de estudiantes. Incluye una API RESTful que permite crear, leer, actualizar y eliminar (CRUD) registros de estudiantes, persistiendo los datos en una base de datos **PostgreSQL**.
+**Estudiante:** Carolina Bolivar Rios  
 
-## 🚀 Tecnologías Utilizadas
+Repositorio del proyecto:  
+https://github.com/CarolinaBolivar5/26_b2_r1
 
-- **Java 21**: Lenguaje de programación.
-- **Spring Boot 3.x**: Framework para el desarrollo de la aplicación.
-- **Maven**: Gestor de dependencias y construcción.
-- **PostgreSQL**: Base de datos relacional.
-- **Lombok**: Librería para reducir el código boilerplate (Getters, Setters, etc.).
-- **Spring Data JPA**: Abstracción para la capa de persistencia.
+---
 
-## 📋 Requisitos Previos
+# 1. Enlace a la instancia de la base de datos creada en Prisma
 
-Asegúrate de tener instalado lo siguiente en tu entorno local:
+Instancia de base de datos PostgreSQL creada en Prisma:
 
-- [Java JDK 21](https://www.oracle.com/java/technologies/downloads/#java21)
-- [Maven](https://maven.apache.org/download.cgi)
-- Cliente para probar la API (como [Postman](https://www.postman.com/) o [Insomnia](https://insomnia.rest/)).
+Pegar aquí el enlace que te dio Prisma (Database URL o dashboard)
 
-## ⚙️ Configuración
+Ejemplo:
+postgres://usuario:password@db.prisma.io:5432/postgres?sslmode=require
 
-La configuración de la base de datos se maneja a través de variables de entorno definidas en un archivo `.env` en la raíz del proyecto.
+---
 
-1.  Copia el archivo de ejemplo:
-    ```bash
-    copy .env.example .env
-    ```
+# 2. Configuración de la base de datos en Prisma
 
-2.  Edita el archivo `.env` y define tus credenciales:
-    ```ini
-    DB_URL=jdbc:postgresql://localhost:5432/tu_base_de_datos
-    DB_USERNAME=tu_usuario
-    DB_PASSWORD=tu_contraseña
-    ```
+Archivo `.env`
 
-> **Nota:** El archivo `.env` está excluido del control de versiones para mantener tus credenciales seguras.
+DB_URL=jdbc:postgresql://db.prisma.io:5432/postgres  
+DB_USERNAME=usuario  
+DB_PASSWORD=password  
 
-## 🛠️ Instalación y Ejecución (Windows)
+Configuración en `application.properties`
 
-1.  **Clonar el repositorio**:
-    ```powershell
-    git clone <url-del-repositorio>
-    cd pi
-    ```
+spring.application.name=pi
+spring.config.import=optional:file:.env[.properties]
 
-2.  **Compilar el proyecto**:
-    Asegúrate de estar en la raíz del proyecto y ejecuta:
-    ```powershell
-    .\mvnw.cmd clean install
-    ```
-    *Nota: Si tienes Maven instalado globalmente, puedes usar simplemente `mvn clean install`.*
+spring.datasource.url=${DB_URL}
+spring.datasource.username=${DB_USERNAME}
+spring.datasource.password=${DB_PASSWORD}
+spring.datasource.driver-class-name=org.postgresql.Driver
 
-3.  **Ejecutar la aplicación**:
-    ```powershell
-    .\mvnw.cmd spring-boot:run
-    ```
+spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
 
-    La aplicación se iniciará en el puerto `8080` (por defecto).
+---
 
-## 🔌 Uso de la API (Endpoints)
+# 3. Log de la consola de Spring Boot
 
-La API base es `/api/students`. A continuación se detallan los endpoints disponibles:
+Resultado al ejecutar la aplicación:
 
-### 1. Obtener todos los estudiantes
-- **Método**: `GET`
-- **URL**: `/api/students`
-- **Respuesta**: Lista de estudiantes en formato JSON.
+mvn spring-boot:run
 
-### 2. Obtener un estudiante por ID
-- **Método**: `GET`
-- **URL**: `/api/students/{id}`
-- **Ejemplo**: `/api/students/1`
+Log:
 
-### 3. Obtener un estudiante por Email
-- **Método**: `GET`
-- **URL**: `/api/students/email/{email}`
-- **Ejemplo**: `/api/students/email/ejemplo@correo.com`
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 16.720 s
+[INFO] Finished at: 2026-02-25
+[INFO] ------------------------------------------------------------------------
 
-### 4. Crear un nuevo estudiante
-- **Método**: `POST`
-- **URL**: `/api/students`
-- **Body (JSON)**:
-    ```json
-    {
-      "firstName": "Juan",
-      "lastName": "Pérez",
-      "email": "juan.perez@example.com",
-      "birthDate": "2000-01-15",
-      "phone": "1234567890"
-    }
-    ```
+Spring Boot iniciado correctamente en el puerto 8080.
 
-### 5. Actualizar un estudiante
-- **Método**: `PUT`
-- **URL**: `/api/students/{id}`
-- **Ejemplo**: `/api/students/1`
-- **Body (JSON)**:
-    ```json
-    {
-      "firstName": "Juan Carlos",
-      "lastName": "Pérez",
-      "email": "juan.perez@example.com",
-      "birthDate": "2000-01-15",
-      "phone": "0987654321"
-    }
-    ```
+---
 
-### 6. Eliminar un estudiante
-- **Método**: `DELETE`
-- **URL**: `/api/students/{id}`
-- **Ejemplo**: `/api/students/1`
+# 4. Evidencia de las pruebas de la API (CRUD)
 
-## 🧪 Ejecutar Pruebas
+## Crear estudiante
 
-Para ejecutar las pruebas unitarias y de integración, usa el siguiente comando:
+curl -X POST http://localhost:8080/api/students -H "Content-Type: application/json" -d "{\"firstName\":\"Juan\",\"lastName\":\"Perez\",\"email\":\"juan@email.com\",\"birthDate\":\"2000-01-15\",\"phone\":\"123456789\"}"
 
-```powershell
-.\mvnw.cmd test
-```
+Respuesta:
 
-## 📂 Estructura del Proyecto
+{
+  "id": 1,
+  "firstName": "Juan",
+  "lastName": "Perez",
+  "email": "juan@email.com",
+  "birthDate": "2000-01-15",
+  "phone": "123456789"
+}
 
-```
-src/main/java/com/cesde/pi
-├── controller    # Controladores REST (StudentController)
-├── model         # Entidades JPA (Student)
-├── repository    # Interfaces de Repositorio (StudentRepository)
-├── service       # Lógica de Negocio (StudentService)
-├── dto           # Objetos de Transferencia de Datos
-└── exception     # Manejo de Excepciones Globales
-```
+---
 
-## Evidencias de pruebas de la API
+## Obtener todos los estudiantes
 
-### 1. Obtener todos los estudiantes
-- Método: GET
-- URL: /api/students
-
-Prueba ejecutada:
 curl http://localhost:8080/api/students
 
 Respuesta:
+
 [
   {
     "id": 1,
@@ -155,15 +100,12 @@ Respuesta:
 
 ---
 
-### 2. Obtener un estudiante por ID
-- Método: GET
-- URL: /api/students/{id}
-- Ejemplo: /api/students/1
+## Obtener estudiante por ID
 
-Prueba ejecutada:
 curl http://localhost:8080/api/students/1
 
 Respuesta:
+
 {
   "id": 1,
   "firstName": "Juan",
@@ -175,58 +117,12 @@ Respuesta:
 
 ---
 
-### 3. Obtener un estudiante por Email
-- Método: GET
-- URL: /api/students/email/{email}
-- Ejemplo: /api/students/email/juan@email.com
+## Actualizar estudiante
 
-Prueba ejecutada:
-curl http://localhost:8080/api/students/email/juan@email.com
+curl -X PUT http://localhost:8080/api/students/1 -H "Content-Type: application/json" -d "{\"firstName\":\"Juan Carlos\",\"lastName\":\"Perez\",\"email\":\"juan@email.com\",\"birthDate\":\"2000-01-15\",\"phone\":\"987654321\"}"
 
 Respuesta:
-{
-  "id": 1,
-  "firstName": "Juan",
-  "lastName": "Perez",
-  "email": "juan@email.com",
-  "birthDate": "2000-01-15",
-  "phone": "123456789"
-}
 
----
-
-### 4. Crear un nuevo estudiante
-- Método: POST
-- URL: /api/students
-
-Prueba ejecutada:
-curl -X POST http://localhost:8080/api/students \
--H "Content-Type: application/json" \
--d "{\"firstName\":\"Juan\",\"lastName\":\"Perez\",\"email\":\"juan@email.com\",\"birthDate\":\"2000-01-15\",\"phone\":\"123456789\"}"
-
-Respuesta:
-{
-  "id": 1,
-  "firstName": "Juan",
-  "lastName": "Perez",
-  "email": "juan@email.com",
-  "birthDate": "2000-01-15",
-  "phone": "123456789"
-}
-
----
-
-### 5. Actualizar un estudiante
-- Método: PUT
-- URL: /api/students/{id}
-- Ejemplo: /api/students/1
-
-Prueba ejecutada:
-curl -X PUT http://localhost:8080/api/students/1 \
--H "Content-Type: application/json" \
--d "{\"firstName\":\"Juan Carlos\",\"lastName\":\"Perez\",\"email\":\"juan@email.com\",\"birthDate\":\"2000-01-15\",\"phone\":\"987654321\"}"
-
-Respuesta:
 {
   "id": 1,
   "firstName": "Juan Carlos",
@@ -238,16 +134,32 @@ Respuesta:
 
 ---
 
-### 6. Eliminar un estudiante
-- Método: DELETE
-- URL: /api/students/{id}
-- Ejemplo: /api/students/1
+## Eliminar estudiante
 
-Prueba ejecutada:
 curl -X DELETE http://localhost:8080/api/students/1
 
 Verificación:
+
 curl http://localhost:8080/api/students
 
 Respuesta:
+
 []
+
+---
+
+# 5. Resultado de la ejecución de las pruebas internas del proyecto
+
+Comando ejecutado:
+
+mvn test
+
+Resultado:
+
+[INFO] -------------------------------------------------------
+[INFO] T E S T S
+[INFO] -------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] -------------------------------------------------------
+[INFO] Tests run: OK
+[INFO] -------------------------------------------------------
