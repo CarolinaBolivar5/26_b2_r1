@@ -11,10 +11,7 @@ https://github.com/CarolinaBolivar5/26_b2_r1
 
 Instancia de base de datos PostgreSQL creada en Prisma:
 
-Pegar aquí el enlace que te dio Prisma (Database URL o dashboard)
-
-Ejemplo:
-postgres://usuario:password@db.prisma.io:5432/postgres?sslmode=require
+https://console.prisma.io/cmm2pebhc00sozxebewdafyid/cmm2vleg801q0zteeb6iv10re/cmm2vq2w201t87heef9x4wktg/dashboard
 
 ---
 
@@ -22,9 +19,9 @@ postgres://usuario:password@db.prisma.io:5432/postgres?sslmode=require
 
 Archivo `.env`
 
-DB_URL=jdbc:postgresql://db.prisma.io:5432/postgres  
-DB_USERNAME=usuario  
-DB_PASSWORD=password  
+DB_URL=jdbc:postgresql://db.prisma.io:5432/postgres?sslmode=require  
+DB_USERNAME=********  
+DB_PASSWORD=******** 
 
 Configuración en `application.properties`
 
