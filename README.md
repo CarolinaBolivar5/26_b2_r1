@@ -131,3 +131,123 @@ src/main/java/com/cesde/pi
 ├── dto           # Objetos de Transferencia de Datos
 └── exception     # Manejo de Excepciones Globales
 ```
+
+## Evidencias de pruebas de la API
+
+### 1. Obtener todos los estudiantes
+- Método: GET
+- URL: /api/students
+
+Prueba ejecutada:
+curl http://localhost:8080/api/students
+
+Respuesta:
+[
+  {
+    "id": 1,
+    "firstName": "Juan",
+    "lastName": "Perez",
+    "email": "juan@email.com",
+    "birthDate": "2000-01-15",
+    "phone": "123456789"
+  }
+]
+
+---
+
+### 2. Obtener un estudiante por ID
+- Método: GET
+- URL: /api/students/{id}
+- Ejemplo: /api/students/1
+
+Prueba ejecutada:
+curl http://localhost:8080/api/students/1
+
+Respuesta:
+{
+  "id": 1,
+  "firstName": "Juan",
+  "lastName": "Perez",
+  "email": "juan@email.com",
+  "birthDate": "2000-01-15",
+  "phone": "123456789"
+}
+
+---
+
+### 3. Obtener un estudiante por Email
+- Método: GET
+- URL: /api/students/email/{email}
+- Ejemplo: /api/students/email/juan@email.com
+
+Prueba ejecutada:
+curl http://localhost:8080/api/students/email/juan@email.com
+
+Respuesta:
+{
+  "id": 1,
+  "firstName": "Juan",
+  "lastName": "Perez",
+  "email": "juan@email.com",
+  "birthDate": "2000-01-15",
+  "phone": "123456789"
+}
+
+---
+
+### 4. Crear un nuevo estudiante
+- Método: POST
+- URL: /api/students
+
+Prueba ejecutada:
+curl -X POST http://localhost:8080/api/students \
+-H "Content-Type: application/json" \
+-d "{\"firstName\":\"Juan\",\"lastName\":\"Perez\",\"email\":\"juan@email.com\",\"birthDate\":\"2000-01-15\",\"phone\":\"123456789\"}"
+
+Respuesta:
+{
+  "id": 1,
+  "firstName": "Juan",
+  "lastName": "Perez",
+  "email": "juan@email.com",
+  "birthDate": "2000-01-15",
+  "phone": "123456789"
+}
+
+---
+
+### 5. Actualizar un estudiante
+- Método: PUT
+- URL: /api/students/{id}
+- Ejemplo: /api/students/1
+
+Prueba ejecutada:
+curl -X PUT http://localhost:8080/api/students/1 \
+-H "Content-Type: application/json" \
+-d "{\"firstName\":\"Juan Carlos\",\"lastName\":\"Perez\",\"email\":\"juan@email.com\",\"birthDate\":\"2000-01-15\",\"phone\":\"987654321\"}"
+
+Respuesta:
+{
+  "id": 1,
+  "firstName": "Juan Carlos",
+  "lastName": "Perez",
+  "email": "juan@email.com",
+  "birthDate": "2000-01-15",
+  "phone": "987654321"
+}
+
+---
+
+### 6. Eliminar un estudiante
+- Método: DELETE
+- URL: /api/students/{id}
+- Ejemplo: /api/students/1
+
+Prueba ejecutada:
+curl -X DELETE http://localhost:8080/api/students/1
+
+Verificación:
+curl http://localhost:8080/api/students
+
+Respuesta:
+[]
