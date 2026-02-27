@@ -23,20 +23,19 @@ DB_URL=jdbc:postgresql://db.prisma.io:5432/postgres?sslmode=require
 DB_USERNAME=********  
 DB_PASSWORD=******** 
 
-Configuración en `application.properties`
+import 'dotenv/config'
+import { defineConfig, env } from 'prisma/config'
 
-spring.application.name=pi
-spring.config.import=optional:file:.env[.properties]
-
-spring.datasource.url=${DB_URL}
-spring.datasource.username=${DB_USERNAME}
-spring.datasource.password=${DB_PASSWORD}
-spring.datasource.driver-class-name=org.postgresql.Driver
-
-spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
-spring.jpa.hibernate.ddl-auto=update
-spring.jpa.show-sql=true
-spring.jpa.properties.hibernate.format_sql=true
+export default defineConfig({
+  schema: 'prisma/schema.prisma',
+  migrations: {
+    path: 'prisma/migrations',
+  },
+  datasource: {
+    url: env('DATABASE_URL'),
+  },
+})
+        
 
 ---
 
